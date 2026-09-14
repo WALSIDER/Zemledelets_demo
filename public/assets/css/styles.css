@@ -2159,6 +2159,7 @@ html::-webkit-scrollbar-thumb:hover {
 
 .market_grid, .catalog_grid, .news_grid, .events_grid, .profile_grid, .auth_grid, .company_grid { width: 86%; margin: 0 auto 110px; display: grid; gap: 24px; align-items: start; }
 .market_grid { grid-template-columns: 320px 1fr; }
+.page_content,
 main > .market_grid:first-child { padding-top: 32px; }
 .catalog_grid { grid-template-columns: 1fr 1fr; }
 .news_grid { grid-template-columns: 1fr 1fr; }
