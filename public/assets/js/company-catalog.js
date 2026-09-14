@@ -18,6 +18,11 @@ function filterEnterpriseCompanies(items, filters) {
     * (filters.sort === "name-desc" ? -1 : 1));
 }
 
+function renderEnterpriseTag(label) {
+  const description = getTagDescription(label) || `Направление деятельности компании: ${label}.`;
+  return `<span class="tag ${getTagClass(label) || "practice"}" data-tag-description="${escapeHtml(description)}">${escapeHtml(label)}</span>`;
+}
+
 function renderEnterpriseCard(company) {
   const name = company.name || "Компания";
   const initials = name.split(/\s+/).filter(Boolean).slice(0, 2).map((word) => word[0]).join("").toUpperCase();
@@ -25,21 +30,20 @@ function renderEnterpriseCard(company) {
   const href = `company-card.html?slug=${encodeURIComponent(company.slug || "")}`;
   const tone = Array.from(name).reduce((sum, letter) => sum + letter.codePointAt(0), 0) % 3;
   return `
-    <article class="enterprise_card white_card">
+    <article class="enterprise_card white_card card_link_surface" data-href="${href}" tabindex="0" role="link" aria-label="Открыть компанию: ${escapeHtml(name)}">
       <div class="enterprise_card_top">
         <span class="enterprise_monogram enterprise_monogram--${tone}" aria-hidden="true">${escapeHtml(initials)}</span>
-        ${company.verified ? '<span class="enterprise_verified"><span aria-hidden="true">✓</span> Проверено</span>' : '<span class="enterprise_pending">На модерации</span>'}
+        ${renderEnterpriseTag(company.verified ? "Проверено" : "На модерации")}
       </div>
-      <h2><a href="${href}">${escapeHtml(name)}</a></h2>
+      <h2>${escapeHtml(name)}</h2>
       <div class="enterprise_location">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>
         <span>${escapeHtml(company.city || company.region || "Регион не указан")}${company.founded ? ` · ${escapeHtml(company.founded)}` : ""}</span>
       </div>
       <p class="enterprise_description">${escapeHtml(company.catalogSummary || company.description || "Компания ещё не добавила описание.")}</p>
-      ${specialties.length ? `<ul class="enterprise_specialties" aria-label="Специализация">${specialties.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>` : ""}
+      ${specialties.length ? `<ul class="enterprise_specialties" aria-label="Специализация">${specialties.map((item) => `<li>${renderEnterpriseTag(item)}</li>`).join("")}</ul>` : ""}
       <div class="enterprise_card_footer">
         <span class="enterprise_activity">${escapeHtml(company.activeOffersLabel || "Нет активных объявлений")}</span>
-        <a class="enterprise_profile_link" href="${href}" aria-label="О компании ${escapeHtml(name)}">О компании <span aria-hidden="true">↗</span></a>
       </div>
     </article>`;
 }
@@ -93,6 +97,8 @@ function mountCompanyDirectory(items) {
       render();
       document.querySelector(".enterprise_toolbar").scrollIntoView({ block: "center" });
     });
+    bindLinkedCards(list);
+    hydrateTagTooltips(list);
     list.setAttribute("aria-busy", "false");
   };
   const update = () => { page = 1; render(); };

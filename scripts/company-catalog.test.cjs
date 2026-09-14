@@ -8,7 +8,13 @@ const root = path.join(__dirname, '..');
 const app = fs.readFileSync(path.join(root, 'public/assets/js/app.js'), 'utf8');
 const helpers = app.slice(app.indexOf('function escapeHtml(value) {'), app.indexOf('function formatMetric(value) {'));
 const context = vm.createContext({});
-vm.runInContext(helpers + fs.readFileSync(path.join(root, 'public/assets/js/company-catalog.js'), 'utf8'), context);
+const sharedFunctions = [
+  ['function normalizeText(value) {', 'function setFeedback('],
+  ['function getTagClass(type) {', 'function setSession('],
+  ['function getTagDescription(text) {', 'function getListingValueLabel('],
+  ['function bindLinkedCards(scope = document) {', 'function getListingPageContext(']
+].map(([start, end]) => app.slice(app.indexOf(start), app.indexOf(end, app.indexOf(start)))).join('\n');
+vm.runInContext(helpers + sharedFunctions + fs.readFileSync(path.join(root, 'public/assets/js/company-catalog.js'), 'utf8'), context);
 const companies = [
   { name: 'Янтарь', region: 'Курская область', city: 'Курск', specialties: ['Зерно'], verified: true, slug: 'yantar' },
   { name: 'Агро Ёлка', region: 'Липецкая область', city: 'Липецк', specialties: ['Сервис'], description: 'Ремонт техники', verified: false, slug: 'agro' },
@@ -64,6 +70,7 @@ test('directory controls update results, paginate and reset together', () => {
       addEventListener(type, callback) { this.listeners[type] = callback; },
       setAttribute(key, value) { this.attributes[key] = value; },
       querySelector() { return null; },
+      querySelectorAll() { return []; },
       scrollIntoView() {},
       reset() { this.listeners.reset({ preventDefault() {} }); }
     });
@@ -98,4 +105,53 @@ test('directory controls update results, paginate and reset together', () => {
   node('companies-filters').reset();
   assert.equal(cardCount(), 12);
   assert.equal(node('companies-list').attributes['aria-busy'], 'false');
+});
+
+test('company specializations use shared colored tags and descriptions', () => {
+  const labels = ['Экспорт', 'Хранение', 'Логистика', 'Официальный дилер', 'Сервис', 'Запчасти', 'Закупки', 'Сезонные контракты', 'Запросы цен', 'Выездной сервис', 'Техника', 'Проверено', 'На модерации'];
+  for (const label of labels) {
+    assert.ok(context.getTagClass(label), label);
+    assert.ok(context.getTagDescription(label), label);
+    assert.ok(context.renderEnterpriseTag(label).includes('class="tag '));
+  }
+  assert.ok(context.renderEnterpriseTag('Новое направление').includes('data-tag-description="Направление деятельности компании: Новое направление.'));
+  const card = context.renderEnterpriseCard(companies[0]);
+  assert.ok(card.includes('card_link_surface'));
+  assert.ok(card.includes('role="link"'));
+  assert.ok(!card.includes('enterprise_profile_link'));
+  assert.ok(!card.includes('О компании'));
+});
+
+test('whole card opens the company by click, Enter or Space without binding twice', () => {
+  context.window = { location: { href: '' } };
+  const listeners = {};
+  const card = {
+    dataset: { href: 'company-card.html?slug=yantar' },
+    addEventListener(type, callback) { assert.ok(!listeners[type]); listeners[type] = callback; }
+  };
+  const scope = { querySelectorAll: () => [card] };
+  context.bindLinkedCards(scope);
+  context.bindLinkedCards(scope);
+  listeners.click({ target: { closest: () => null } });
+  assert.equal(context.window.location.href, card.dataset.href);
+  for (const key of ['Enter', ' ']) {
+    context.window.location.href = '';
+    let prevented = false;
+    listeners.keydown({ target: card, key, preventDefault() { prevented = true; } });
+    assert.equal(context.window.location.href, card.dataset.href);
+    assert.ok(prevented);
+  }
+});
+
+test('shared tooltip hydration retains a description for a new specialization', () => {
+  const attributes = {};
+  const tag = {
+    textContent: 'Новое направление', dataset: { tagDescription: 'Описание нового направления.' },
+    setAttribute(key, value) { attributes[key] = value; },
+    removeAttribute(key) { delete attributes[key]; },
+    hasAttribute(key) { return key in attributes; }
+  };
+  context.hydrateTagTooltips({ querySelectorAll: () => [tag] });
+  assert.equal(attributes['data-tooltip'], 'Описание нового направления.');
+  assert.equal(attributes.tabindex, '0');
 });
