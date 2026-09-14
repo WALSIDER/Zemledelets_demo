@@ -1795,13 +1795,17 @@ async function loadCompaniesPage() {
     return;
   }
 
-  container.innerHTML = loadingMarkup("Открываем каталог компаний...");
+  container.setAttribute("aria-busy", "true");
+  container.innerHTML = '<div class="enterprise_empty white_card">Открываем каталог компаний…</div>';
 
   try {
     const response = await api("/api/companies");
-    container.innerHTML = response.items.map(renderCompanyCard).join("");
+    mountCompanyDirectory(response.items);
   } catch (error) {
-    container.innerHTML = errorMarkup(error.message);
+    container.innerHTML = '<div class="enterprise_empty white_card"><h2>Не удалось загрузить каталог</h2><p>Проверьте соединение и попробуйте ещё раз.</p><button class="button_alt" type="button" data-companies-retry>Повторить</button></div>';
+    container.querySelector("[data-companies-retry]").addEventListener("click", loadCompaniesPage);
+    container.setAttribute("aria-busy", "false");
+    document.getElementById("companies-results-meta").textContent = "Каталог временно недоступен";
   }
 }
 
@@ -2850,30 +2854,6 @@ function renderTenderCard(item) {
       <div class="offer_actions">
         <a class="button_alt" href="company-card.html?slug=${encodeURIComponent(company.slug || "")}">Карточка заказчика</a>
         <a class="button_main" href="${state.user ? "profile.html" : "auth.html"}">${escapeHtml(item.ctaLabel)}</a>
-      </div>
-    </div>
-  `;
-}
-
-function renderCompanyCard(company) {
-  const statusMarkup = company.verified
-    ? '<span class="tag verified">\u041f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043e</span>'
-    : '<span class="tag moderation">\u041d\u0430 \u043c\u043e\u0434\u0435\u0440\u0430\u0446\u0438\u0438</span>';
-
-  return `
-    <div class="company_item">
-      <div class="top">
-        <h3>${escapeHtml(company.name)}</h3>
-        ${statusMarkup}
-      </div>
-      <p>${escapeHtml(company.catalogSummary)}</p>
-      <div class="company_meta">
-        <span>${escapeHtml(company.city)}</span>
-        <span>${escapeHtml(company.founded)}</span>
-        <span>${escapeHtml(company.specialties.join(" \u00b7 "))}</span>
-      </div>
-      <div class="card_actions">
-        <a class="button_main" href="company-card.html?slug=${encodeURIComponent(company.slug)}">\u0421\u043c\u043e\u0442\u0440\u0435\u0442\u044c \u043a\u0430\u0440\u0442\u043e\u0447\u043a\u0443</a>
       </div>
     </div>
   `;

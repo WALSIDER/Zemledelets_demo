@@ -3,41 +3,71 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Земледелецъ — Каталог компаний</title>
+  <title>Земледелецъ — Каталог предприятий</title>
   <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="/assets/css/company-catalog.css" />
 </head>
 <body>
   <div id="site-header"></div>
   <main class="page_content">
-  <section class="catalog_grid">
-    <div class="content_panel">
-      <h2 class="panel_title">Компании отрасли</h2>
-      <div class="card_stack" id="companies-list" style="margin-top:22px;">
-        <div class="company_item">
-          <div class="top"><h3>Зерновой Дом Черноземья</h3><span class="tag verified">Проверено</span></div>
-          <p>Зерно, хранение, логистика. 46 активных предложений, собственные мощности хранения и перевалки.</p>
-          <div class="company_meta"><span>Воронеж</span><span>С 2017 года</span><span>Экспортные поставки</span></div>
-          <div class="card_actions"><a class="button_main" href="company-card.html">Смотреть карточку</a></div>
+    <section class="enterprise_directory" aria-label="Каталог предприятий">
+      <aside class="enterprise_sidebar">
+        <form class="filter_panel filter_panel--interactive" id="companies-filters" role="search" aria-label="Поиск предприятий">
+          <h2 class="panel_title">Найти компанию</h2>
+          <label class="filter_search" for="companies-search">
+            <span class="filter_label">Название или деятельность</span>
+            <input id="companies-search" type="search" placeholder="Например, зерно или сервис" />
+          </label>
+          <label class="filter_select" for="companies-region">
+            <span class="filter_label">Регион</span>
+            <select id="companies-region"><option value="">Все регионы</option></select>
+          </label>
+          <label class="filter_select" for="companies-specialty">
+            <span class="filter_label">Специализация</span>
+            <select id="companies-specialty"><option value="">Все направления</option></select>
+          </label>
+          <label class="filter_toggle">
+            <input id="companies-verified" type="checkbox" />
+            <span>Только проверенные</span>
+          </label>
+          <button class="button_ghost enterprise_reset" type="reset">Сбросить фильтры</button>
+        </form>
+        <div class="enterprise_join">
+          <span class="enterprise_join_mark" aria-hidden="true">+</span>
+          <h2>Ваша компания<br>в каталоге</h2>
+          <p>Расскажите о своём предприятии и помогите партнёрам найти вас.</p>
+          <a class="button_main" id="companies-join" href="auth.html#register">Добавить компанию <span aria-hidden="true">↗</span></a>
         </div>
-        <div class="company_item">
-          <div class="top"><h3>АгроТех Инжиниринг</h3><span class="tag verified">Проверено</span></div>
-          <p>Сельхозтехника и сервис. Поставка машин, инженерное сопровождение, сервисная выездная команда.</p>
-          <div class="company_meta"><span>Белгород</span><span>19 активных предложений</span><span>Официальный дилер</span></div>
-          <div class="card_actions"><a class="button_main" href="company-card.html">Смотреть карточку</a></div>
+      </aside>
+      <div class="enterprise_content">
+        <div class="enterprise_intro white_card">
+          <div class="enterprise_heading">
+            <h1>Каталог предприятий</h1>
+            <span class="enterprise_total" id="companies-total" aria-label="Всего предприятий">—</span>
+          </div>
+          <p>Производители, поставщики и сервисные компании агробизнеса. Найдите партнёра для своей задачи.</p>
+          <div class="enterprise_summary" id="companies-summary" hidden></div>
         </div>
+        <div class="enterprise_toolbar">
+          <p id="companies-results-meta" role="status" aria-live="polite">Загружаем предприятия…</p>
+          <label for="companies-sort">
+            <span>Порядок</span>
+            <select id="companies-sort">
+              <option value="name">По названию: А–Я</option>
+              <option value="name-desc">По названию: Я–А</option>
+            </select>
+          </label>
+        </div>
+        <div class="enterprise_cards" id="companies-list" aria-busy="true">
+          <div class="enterprise_empty white_card">Загружаем каталог предприятий…</div>
+        </div>
+        <nav class="pagination" id="companies-pagination" aria-label="Страницы каталога"></nav>
+        <noscript><p class="white_card">Включите JavaScript, чтобы загрузить каталог и воспользоваться поиском.</p></noscript>
       </div>
-    </div>
-    <div class="content_panel">
-      <h2 class="panel_title">Расширенное присутствие</h2>
-      <p class="panel_text">Компании могут усиливать видимость в каталоге, оформлять расширенный профиль и получать больше целевых обращений от профильной аудитории.</p>
-      <div class="mini_box"><strong>Выше в выдаче</strong><br>Расширенный профиль помогает увеличить видимость компании в каталоге и тематических разделах.</div>
-      <div class="mini_box"><strong>Больше контента о бренде</strong><br>Публикации, новости и кейсы помогают формировать экспертный образ и поддерживать интерес аудитории.</div>
-      <div class="mini_box"><strong>Полноценная карточка компании</strong><br>Дополнительные материалы, документы, контакты и описание услуг делают профиль полезнее для потенциальных клиентов.</div>
-      <div class="card_actions"><a class="button_main" href="profile.html">Оформить профиль</a></div>
-    </div>
-  </section>
-</main>
+    </section>
+  </main>
   <div id="site-footer"></div>
+  <script src="/assets/js/company-catalog.js"></script>
   <script src="/assets/js/app.js"></script>
 </body>
 </html>
