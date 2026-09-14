@@ -1,0 +1,13 @@
+.env
+.env.*
+!.env.example
+*.log
+backups/
+node_modules/
+dist/
+.wrangler/
+.tools/
+.npm-cache/
+.test-state.json
+.dev.vars
+.dev.vars.*

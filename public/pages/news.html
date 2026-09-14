@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Земледелецъ — Новости</title>
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+</head>
+<body>
+  <div id="site-header"></div>
+  <main>
+  <section class="page_head container">
+    <h1 class="title">Новости и статьи</h1>
+    <p class="discription">Новости отрасли, статьи, аналитика и пресс-релизы по агробизнесу, рынкам, технике, логистике и регулированию.</p>
+  </section>
+  <section class="market_grid">
+    <aside class="filter_panel filter_panel--interactive" id="news-filters">
+      <div class="filter_header">
+        <h2 class="panel_title">Фильтры и поиск</h2>
+      </div>
+      <label class="filter_search" for="news-search">
+        <span class="filter_label">Поиск по материалам</span>
+        <input id="news-search" type="search" placeholder="Например: семена" />
+      </label>
+      <div class="filter_group">
+        <h3 class="filter_group_title">Формат</h3>
+        <div class="pills" data-filter-group="kind">
+          <button class="pill active" type="button" data-filter-value="all">Все</button>
+          <button class="pill" type="button" data-filter-value="Новость">Новости</button>
+          <button class="pill" type="button" data-filter-value="Статья">Статьи</button>
+          <button class="pill" type="button" data-filter-value="Аналитика">Аналитика</button>
+          <button class="pill" type="button" data-filter-value="Пресс-релиз">Пресс-релизы</button>
+        </div>
+      </div>
+      <div class="filter_group">
+        <h3 class="filter_group_title">Тематика</h3>
+        <div class="pills" data-filter-group="tag">
+          <button class="pill active" type="button" data-filter-value="all">Все</button>
+          <button class="pill" type="button" data-filter-value="Рынок · Аналитика">Рынок · Аналитика</button>
+          <button class="pill" type="button" data-filter-value="События · Тренды">События · Тренды</button>
+          <button class="pill" type="button" data-filter-value="Практика · Гайд">Практика · Гайд</button>
+          <button class="pill" type="button" data-filter-value="Политика · Регулирование">Политика · Регулирование</button>
+          <button class="pill" type="button" data-filter-value="Экспорт · Логистика">Экспорт · Логистика</button>
+          <button class="pill" type="button" data-filter-value="Урожай · Погода">Урожай · Погода</button>
+          <button class="pill" type="button" data-filter-value="Животноводство · Ветеринария">Животноводство · Ветеринария</button>
+          <button class="pill" type="button" data-filter-value="Техника · Инфраструктура">Техника · Инфраструктура</button>
+          <button class="pill" type="button" data-filter-value="Финансы · Господдержка">Финансы · Господдержка</button>
+          <button class="pill" type="button" data-filter-value="Наука · Технологии">Наука · Технологии</button>
+        </div>
+      </div>
+      <p class="filter_note">Лента может собираться как из редакционных материалов, так и из внешних отраслевых источников с автоматической разметкой по формату и теме.</p>
+    </aside>
+    <div class="content_panel">
+      <h2 class="panel_title">Лента материалов</h2>
+      <p class="panel_text">Здесь собраны новости, статьи, аналитика и пресс-релизы для поставщиков, закупщиков, производителей, логистов и сервисных компаний агрорынка.</p>
+      <p class="filter_results" id="news-results-meta">Показываем все материалы редакции.</p>
+      <div class="card_stack" id="news-list" style="margin-top:22px;">
+        <article class="news_item"><div class="top"><span class="tag">Рынок · Аналитика</span></div><h3>Весенний спрос на посевной материал вырос у фермерских хозяйств</h3><p>Краткий редакционный материал с цифрами, цитатами участников рынка и переходом в расширенную статью.</p><div class="card_actions"><a class="button_main" href="#">Читать</a></div></article>
+      </div>
+      <div class="pagination" id="news-pagination"></div>
+    </div>
+  </section>
+</main>
+  <div id="site-footer"></div>
+  <script src="/assets/js/app.js"></script>
+</body>
+</html>

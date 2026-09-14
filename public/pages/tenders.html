@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Земледелецъ — Закупки и тендеры</title>
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+</head>
+<body>
+  <div id="site-header"></div>
+  <main>
+    <section class="page_head container">
+      <h1 class="title">Закупки и тендеры</h1>
+      <p class="discription">Раздел для запросов цен, сезонных закупок и коммерческих тендеров между компаниями агропромышленного комплекса.</p>
+    </section>
+
+    <section class="market_grid">
+      <aside class="filter_panel filter_panel--interactive" id="tenders-filters">
+        <div class="filter_header">
+          <h2 class="panel_title">Фильтры и поиск</h2>
+        </div>
+        <label class="filter_search" for="tenders-search">
+          <span class="filter_label">Поиск по закупкам</span>
+          <input id="tenders-search" type="search" placeholder="Например: семена" />
+        </label>
+        <div class="filter_group">
+          <h3 class="filter_group_title">Формат закупки</h3>
+          <div class="pills" data-filter-group="type">
+            <button class="pill active" type="button" data-filter-value="all">Все</button>
+            <button class="pill" type="button" data-filter-value="Запрос цен">Запрос цен</button>
+            <button class="pill" type="button" data-filter-value="Тендер">Тендер</button>
+            <button class="pill" type="button" data-filter-value="Долгосрочный контракт">Долгосрочный контракт</button>
+            <button class="pill" type="button" data-filter-value="Запрос предложений">Запрос предложений</button>
+            <button class="pill" type="button" data-filter-value="Конкурс">Конкурс</button>
+          </div>
+        </div>
+        <div class="filter_group">
+          <h3 class="filter_group_title">Категории</h3>
+          <div class="pills" data-filter-group="category">
+            <button class="pill active" type="button" data-filter-value="all">Все</button>
+            <button class="pill" type="button" data-filter-value="Удобрения">Удобрения</button>
+            <button class="pill" type="button" data-filter-value="Семена">Семена</button>
+            <button class="pill" type="button" data-filter-value="СЗР">СЗР</button>
+            <button class="pill" type="button" data-filter-value="Техника">Техника</button>
+            <button class="pill" type="button" data-filter-value="ГСМ">ГСМ</button>
+            <button class="pill" type="button" data-filter-value="Логистика">Логистика</button>
+            <button class="pill" type="button" data-filter-value="Хранение">Хранение</button>
+            <button class="pill" type="button" data-filter-value="Инфраструктура">Инфраструктура</button>
+          </div>
+        </div>
+        <div class="filter_group">
+          <label class="filter_select" for="tenders-region">
+            <span class="filter_group_title">Область</span>
+            <select id="tenders-region">
+              <option value="all">Все области</option>
+            </select>
+          </label>
+        </div>
+        <p class="filter_note">Подбор работает по названию закупки, описанию, компании, региону и важным условиям из карточки.</p>
+      </aside>
+
+      <div class="content_panel">
+        <h2 class="panel_title">Активные закупки</h2>
+        <p class="panel_text">Карточки закупок помогают быстро оценить задачу, дедлайн и требования заказчика, а затем отправить коммерческое предложение в удобном формате.</p>
+        <p class="filter_results" id="tenders-results-meta">Показываем все актуальные закупки.</p>
+        <div class="offer_list" id="tenders-list" style="margin-top:26px;">
+          <div class="offer_item">
+            <div class="top"><div><span class="tag buy">Тендер</span> <span class="tag">Удобрения</span></div><strong>до 24 апреля</strong></div>
+            <h3>Закупка аммиачной селитры, 200 тонн</h3>
+            <p>Холдинг Поле · Курская область</p>
+            <div class="offer_meta"><span>Нужен сезонный контракт</span><span>Отсрочка платежа обсуждается</span><span>6 откликов</span></div>
+            <div class="offer_actions"><a class="button_alt" href="company-card.html">Карточка заказчика</a><a class="button_main" href="profile.html">Подать предложение</a></div>
+          </div>
+
+          <div class="offer_item">
+            <div class="top"><div><span class="tag buy">Запрос цен</span> <span class="tag">Логистика</span></div><strong>до 27 апреля</strong></div>
+            <h3>Перевозка зерна с трех хозяйств в элеватор</h3>
+            <p>Зерновой Дом Черноземья · Воронежская область</p>
+            <div class="offer_meta"><span>Маршрут по ЦФО</span><span>Требуется 12 машин</span><span>Документы в карточке</span></div>
+            <div class="offer_actions"><a class="button_alt" href="company-card.html">Подробнее</a><a class="button_main" href="profile.html">Отправить КП</a></div>
+          </div>
+
+          <div class="offer_item">
+            <div class="top"><div><span class="tag buy">Долгосрочный контракт</span> <span class="tag">Техника</span></div><strong>до 30 апреля</strong></div>
+            <h3>Сервисный тендер на парк тракторов и комбайнов</h3>
+            <p>АгроИнвест Регион · Белгородская область</p>
+            <div class="offer_meta"><span>Контракт на 12 месяцев</span><span>Выездные бригады</span><span>Требуется SLA</span></div>
+            <div class="offer_actions"><a class="button_alt" href="company-card.html">Условия</a><a class="button_main" href="profile.html">Участвовать</a></div>
+          </div>
+        </div>
+        <div class="pagination" id="tenders-pagination"></div>
+      </div>
+    </section>
+
+    <section class="info_banner">
+      <h2>Почему раздел закупок важен для агробизнеса</h2>
+      <p>Структурированные закупки помогают компаниям быстрее собирать предложения, сравнивать условия и работать с поставщиками в прозрачном коммерческом формате. Это делает платформу полезной не только для публикации объявлений, но и для полноценной закупочной работы.</p>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+  <script src="/assets/js/app.js"></script>
+</body>
+</html>

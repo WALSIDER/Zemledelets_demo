@@ -1,0 +1,17 @@
+{
+  "name": "zemledelets-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Аграрная B2B-платформа со встроенным backend на Node.js без внешних зависимостей.",
+  "scripts": {
+    "build": "node scripts/build-cloudflare.js",
+    "preview:cloudflare": "wrangler pages dev dist --d1 DB --compatibility-date=2026-09-01 --compatibility-flag=nodejs_compat",
+    "start": "node server.js",
+    "sync:news": "node server.js --sync-news",
+    "check:utf8": "python scripts/check_utf8.py",
+    "check": "python scripts/check_utf8.py && node --check server.js && node --check public/assets/js/app.js"
+  },
+  "devDependencies": {
+    "wrangler": "4.131.2"
+  }
+}

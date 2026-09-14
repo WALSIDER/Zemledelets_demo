@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Земледелецъ — Авторизация</title>
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+</head>
+<body>
+  <div id="site-header"></div>
+  <main>
+  <section class="page_head container">
+    <h1 class="title">Вход и регистрация компании</h1>
+    <p class="discription">Работайте с предложениями, закупками, откликами и карточкой компании из единого личного кабинета.</p>
+  </section>
+  <section class="container">
+    <div class="mini_box auth_hint">
+      <strong>Быстрый вход для знакомства</strong><br>
+      E-mail: demo@zemledelets.ru · Пароль: demo12345
+      <p id="auth-page-feedback" class="status_message"></p>
+    </div>
+  </section>
+  <section class="auth_grid">
+    <div class="content_panel form_card">
+      <h2 class="panel_title">Вход</h2>
+      <form id="login-form">
+        <label>E-mail<input name="email" type="email" placeholder="example@company.ru" required></label>
+        <label>Пароль<input name="password" type="password" placeholder="••••••••" required></label>
+        <p id="login-feedback" class="status_message"></p>
+        <div class="form_actions"><button class="button_main" type="submit">Войти</button><a class="button_alt" href="#register">Создать компанию</a></div>
+      </form>
+    </div>
+    <div class="content_panel form_card" id="register">
+      <h2 class="panel_title">Регистрация компании</h2>
+      <form id="register-form">
+        <label>Название компании<input name="companyName" type="text" placeholder="ООО АгроПоставка" required></label>
+        <label>E-mail<input name="email" type="email" placeholder="sales@company.ru" required></label>
+        <label>Пароль<input name="password" type="password" placeholder="Создайте пароль" minlength="6" required></label>
+        <label>Краткое описание<textarea name="description" placeholder="Кратко опишите специализацию компании, продукцию или услуги" required></textarea></label>
+        <p id="register-feedback" class="status_message"></p>
+        <div class="form_actions"><button class="button_main" type="submit">Создать профиль</button></div>
+      </form>
+    </div>
+  </section>
+</main>
+  <div id="site-footer"></div>
+  <script src="/assets/js/app.js"></script>
+</body>
+</html>
