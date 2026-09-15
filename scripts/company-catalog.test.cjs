@@ -86,18 +86,25 @@ test('directory controls update results, paginate and reset together', () => {
   context.mountCompanyDirectory(many);
   const cardCount = () => (node('companies-list').innerHTML.match(/<article /g) || []).length;
   assert.equal(cardCount(), 12);
-  assert.equal(node('companies-total').textContent, '25');
+  assert.equal(node('companies-reset').hidden, true);
+  node('companies-sort').value = 'name-desc';
+  node('companies-sort').listeners.change();
+  assert.equal(node('companies-reset').hidden, true);
+  assert.equal(node('companies-results-meta').textContent, 'Показано 1–12 из 25');
   changePage(3);
   assert.equal(cardCount(), 1);
   node('companies-search').value = 'несуществующая';
   node('companies-search').listeners.input();
+  assert.equal(node('companies-reset').hidden, false);
   assert.equal(cardCount(), 0);
   assert.ok(node('companies-list').innerHTML.includes('Компании не найдены'));
   node('companies-filters').reset();
+  assert.equal(node('companies-reset').hidden, true);
   assert.equal(cardCount(), 12);
   assert.equal(node('companies-sort').value, 'name');
   node('companies-region').value = 'Липецкая область';
   node('companies-region').listeners.change();
+  assert.equal(node('companies-reset').hidden, false);
   assert.equal(cardCount(), 8);
   node('companies-verified').checked = true;
   node('companies-verified').listeners.change();
@@ -154,4 +161,20 @@ test('shared tooltip hydration retains a description for a new specialization', 
   context.hydrateTagTooltips({ querySelectorAll: () => [tag] });
   assert.equal(attributes['data-tooltip'], 'Описание нового направления.');
   assert.equal(attributes.tabindex, '0');
+});
+
+test('profile statuses are excluded from specialties, filters and public company data', () => {
+  const legacy = { name: 'Компания', slug: 'legacy', verified: false,
+    specialties: ['Новая компания', 'Профиль на модерации', 'На модерации', 'Проверено', 'Сервис'] };
+  assert.deepEqual(Array.from(context.getEnterpriseSpecialties(legacy)), ['Сервис']);
+  assert.equal(context.filterEnterpriseCompanies([legacy], { specialty: 'Профиль на модерации' }).length, 0);
+  const card = context.renderEnterpriseCard(legacy);
+  assert.ok(!card.includes('Профиль на модерации'));
+  assert.ok(!card.includes('Новая компания'));
+  assert.ok(card.includes('tag moderation'));
+  const server = fs.readFileSync(path.join(root, 'server.js'), 'utf8');
+  vm.runInContext(server.slice(server.indexOf('function buildPublicCompany(company) {'), server.indexOf('function buildMarketplaceItem(')), context);
+  assert.deepEqual(Array.from(context.buildPublicCompany(legacy).specialties), ['Сервис']);
+  context.mountCompanyDirectory([legacy]);
+  assert.ok(!context.document.getElementById('companies-specialty').innerHTML.includes('модерации'));
 });

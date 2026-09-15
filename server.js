@@ -1412,7 +1412,9 @@ function buildPublicCompany(company) {
     description: company.description,
     catalogSummary: company.catalogSummary,
     about: company.about,
-    specialties: company.specialties,
+    specialties: (Array.isArray(company.specialties) ? company.specialties : []).filter((label) =>
+      typeof label === "string" && label.trim()
+      && !["новая компания", "профиль на модерации", "на модерации", "проверено"].includes(label.trim().toLowerCase())),
     phone: company.phone,
     email: company.email,
     managerHours: company.managerHours
@@ -1653,7 +1655,7 @@ async function handleApi(req, res, url) {
       description,
       catalogSummary: description,
       about: description,
-      specialties: ["Новая компания", "Профиль на модерации"],
+      specialties: [],
       phone: "Добавьте телефон в профиле",
       email,
       managerHours: "Укажите часы работы менеджера"

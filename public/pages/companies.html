@@ -30,7 +30,7 @@
             <input id="companies-verified" type="checkbox" />
             <span>Только проверенные</span>
           </label>
-          <button class="button_ghost enterprise_reset" type="reset">Сбросить фильтры</button>
+          <button class="button_ghost enterprise_reset" id="companies-reset" type="reset" hidden>Сбросить фильтры</button>
         </form>
         <div class="enterprise_join">
           <span class="enterprise_join_mark" aria-hidden="true">+</span>
@@ -43,7 +43,6 @@
         <div class="enterprise_intro white_card">
           <div class="enterprise_heading">
             <h1>Каталог предприятий</h1>
-            <span class="enterprise_total" id="companies-total" aria-label="Всего предприятий">—</span>
           </div>
           <p>Производители, поставщики и сервисные компании агробизнеса. Найдите партнёра для своей задачи.</p>
           <div class="enterprise_summary" id="companies-summary" hidden></div>
